@@ -1,0 +1,237 @@
+---
+title: "#MEX CD1"
+author: "Edgar Chicurel"
+date: "25/11/2022"
+output: html_document
+---
+
+## MEX
+Top 6:
+1. Machinery/Electrical
+2. Transportation
+3. Mineral Products	
+4. Miscellaneous
+5. Metals
+6. Plastics/Rubbers
+
+```{r}
+
+library(tidyverse)
+library(lubridate)
+
+setwd("C:/Users/usuario/Desktop/TFM_R/3.Graphs_code/")
+Mex_complete <- read_csv("C:/Users/usuario/Desktop/TFM_R/2.Data_code/Output/Data_with_indicators/MEX_full.csv")
+
+p = Mex_complete %>%
+  mutate(
+         imp = "MEX"
+         ) %>% 
+  group_by(year) %>%
+filter(
+  sector == "Machinery/Eelectrical" | sector == "Transportation" | sector == "Mineral Products" | sector == "Miscellaneous" | sector == "Metals" | sector == "Plastics/Rubbers"
+) %>%
+  arrange(year, sector)
+ 
+  
+#1-12
+p = p %>%
+  rename(
+    HHI_exports = cdi1_exports,
+    HHI_imports = cdi1_imports
+  )
+p1 <- p  %>%
+  select(year, sector, HHI_imports, HHI_exports) %>%
+  gather(key = "variable", value = "value", -year, -sector)
+
+ggplot(p1, aes(x = year, y = value)) +
+  ggtitle("Mexico HHI imports and exports sectors by VTF")+
+  geom_line(aes(color = variable)) + 
+  scale_color_manual(values = c("darkred", "steelblue")) +
+  facet_wrap(vars(sector)) +
+  scale_x_continuous(guide = guide_axis(n.dodge=2)) +
+  geom_hline(alpha = 0.5, yintercept=0.4, linetype="dashed")+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+  ggsave("Results/MEX_CDI1.pdf",  width = 10, height = 10, units = c("in"))
+  
+
+p = p %>%
+  rename(
+    Substitutability = cdi3_exports
+  )
+  
+ggplot(p, aes(x = year, y = Substitutability))+
+  ggtitle("Mexico Substitutability Indicator") +
+  geom_line(color = "purple")+
+  facet_wrap(vars(sector), scales = "fixed")+
+  scale_x_continuous(guide = guide_axis(n.dodge=2))+
+  geom_hline(alpha = 0.5, yintercept=1, linetype="dashed")+
+  ylim(0, 5)+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+ggsave("Results/MEX_CDI3.pdf",  width = 10, height = 10, units = c("in"))
+
+
+```
+
+
+## US
+
+```{r}
+
+setwd("C:/Users/usuario/Desktop/TFM_R/3.Graphs_code/")
+US_complete <- read_csv("C:/Users/usuario/Desktop/TFM_R/2.Data_code/Output/Data_with_indicators/US_full.csv")
+
+p = US_complete %>%
+  mutate(
+         imp = "US"
+         ) %>% 
+  group_by(year) %>%
+filter(
+  sector == "Machinery/Eelectrical" | sector == "Transportation" | sector == "Mineral Products" | sector == "Miscellaneous" | sector == "Metals" | sector == "Plastics/Rubbers"
+) %>%
+  arrange(year, sector)
+ 
+  
+#1-12
+p1 <- p  %>%
+  select(year, sector, cdi1_imports, cdi1_exports) %>%
+  gather(key = "variable", value = "value", -year, -sector)
+
+ggplot(p1, aes(x = year, y = value)) +
+  ggtitle("US HHI imports and exports sectors by VTF")+
+  geom_line(aes(color = variable)) + 
+  scale_color_manual(values = c("darkred", "steelblue")) +
+  facet_wrap(vars(sector)) +
+  scale_x_continuous(guide = guide_axis(n.dodge=2)) +
+  geom_hline(alpha = 0.5, yintercept=0.4, linetype="dashed")+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+  ggsave("Results/US_CDI1.pdf",  width = 10, height = 10, units = c("in"))
+  
+
+p = p %>%
+  rename(
+    Substitutability = cdi3_exports
+  )
+  
+ggplot(p, aes(x = year, y = Substitutability))+
+  ggtitle("US Substitutability Indicator") +
+  geom_line(color = "purple")+
+  facet_wrap(vars(sector), scales = "fixed")+
+  scale_x_continuous(guide = guide_axis(n.dodge=2))+
+  geom_hline(alpha = 0.5, yintercept=1, linetype="dashed")+
+  ylim(0, 5)+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+ggsave("Results/US_CDI3.pdf",  width = 10, height = 10, units = c("in"))
+
+```
+
+
+## CANADA
+
+```{r}
+
+setwd("C:/Users/usuario/Desktop/TFM_R/3.Graphs_code/")
+CAN_complete <- read_csv("C:/Users/usuario/Desktop/TFM_R/2.Data_code/Output/Data_with_indicators/CAN_full.csv")
+
+p = CAN_complete %>%
+  mutate(
+         imp = "CAN"
+         ) %>% 
+  group_by(year) %>%
+filter(
+  sector == "Machinery/Eelectrical" | sector == "Transportation" | sector == "Mineral Products" | sector == "Miscellaneous" | sector == "Metals" | sector == "Plastics/Rubbers"
+) %>%
+  arrange(year, sector)
+ 
+  
+#1-12
+p1 <- p  %>%
+  select(year, sector, cdi1_imports, cdi1_exports) %>%
+  gather(key = "variable", value = "value", -year, -sector)
+
+ggplot(p1, aes(x = year, y = value)) +
+  ggtitle("CAN HHI imports and exports sectors by VTF")+
+  geom_line(aes(color = variable)) + 
+  scale_color_manual(values = c("darkred", "steelblue")) +
+  facet_wrap(vars(sector)) +
+  scale_x_continuous(guide = guide_axis(n.dodge=2)) +
+  geom_hline(alpha = 0.5, yintercept=0.4, linetype="dashed")+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+  ggsave("Results/CAN_CDI1.pdf",  width = 10, height = 10, units = c("in"))
+  
+
+p = p %>%
+  rename(
+    Substitutability = cdi3_exports
+  )
+  
+ggplot(p, aes(x = year, y = Substitutability))+
+  ggtitle("Canada Substitutability Indicator") +
+  geom_line(color = "purple")+
+  facet_wrap(vars(sector), scales = "fixed")+
+  scale_x_continuous(guide = guide_axis(n.dodge=2))+
+  geom_hline(alpha = 0.5, yintercept=1, linetype="dashed")+
+  ylim(0, 5)+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+ggsave("Results/CAN_CDI3.pdf",  width = 10, height = 10, units = c("in"))
+
+```
+
+## NAFTA
+
+```{r}
+setwd("C:/Users/usuario/Desktop/TFM_R/3.Graphs_code/")
+NAFTA_complete <- read_csv("C:/Users/usuario/Desktop/TFM_R/2.Data_code/Output/Data_with_indicators/NAFTA_full.csv")
+
+p = NAFTA_complete %>%
+  mutate(
+         imp = "NAFTA"
+         ) %>% 
+  group_by(year) %>%
+filter(
+  sector == "Machinery/Eelectrical" | sector == "Transportation" | sector == "Mineral Products" | sector == "Miscellaneous" | sector == "Metals" | sector == "Plastics/Rubbers"
+) %>%
+  arrange(year, sector)
+ 
+  
+#1-12
+p1 <- p  %>%
+  select(year, sector, cdi1_imports, cdi1_exports) %>%
+  gather(key = "variable", value = "value", -year, -sector)
+
+ggplot(p1, aes(x = year, y = value)) +
+  ggtitle("NAFTA HHI imports and exports sectors by VTF")+
+  geom_line(aes(color = variable)) + 
+  scale_color_manual(values = c("darkred", "steelblue")) +
+  facet_wrap(vars(sector)) +
+  scale_x_continuous(guide = guide_axis(n.dodge=2)) +
+  geom_hline(alpha = 0.5, yintercept=0.4, linetype="dashed")+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+  ggsave("Results/NAFTA_CDI1.pdf",  width = 10, height = 10, units = c("in"))
+  
+
+p = p %>%
+  rename(
+    Substitutability = cdi3_exports
+  )
+  
+ggplot(p, aes(x = year, y = Substitutability))+
+  ggtitle("NAFTA Substitutability Indicator") +
+  geom_line(color = "purple")+
+  facet_wrap(vars(sector), scales = "fixed")+
+  scale_x_continuous(guide = guide_axis(n.dodge=2))+
+  geom_hline(alpha = 0.5, yintercept=1, linetype="dashed")+
+  ylim(0, 5)+
+  geom_vline(alpha = 0.5, xintercept=2018)
+
+ggsave("Results/NAFTA_CDI3.pdf",  width = 10, height = 10, units = c("in"))
+
+
+```
+
