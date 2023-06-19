@@ -11,6 +11,7 @@ This code works to calculate some trade indicators using the BACI, CEPII databas
 6. Run merge_all_indicators to get the full database with all the indicators
 
 Full database should result in 2.Data_code/Output/Data_with_indicators 
+
 Code should work for any country and/or any region
 
 
